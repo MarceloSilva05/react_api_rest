@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import React, {useEffect, useState } from "react";
 import './App.css';
-
+import api from "./componetes/api"
 function App() {
+  document.title="consumindo api"
+  const [usuario,setUsuario]=useState();
+
+  useEffect(()=>{
+    api.get("MarceloSilva05")
+    .then((response) => setUsuario(response.data))
+    .catch((err) =>{
+      console.error("erro"+err);
+    });
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="conteudo">
+            <img src={usuario?.avatar_url}/>
+            <h1>{usuario?.name}</h1>
+            <p>{usuario?.login}</p>
+            <p>{usuario?.bio}</p>
+            <p>Repositorios {usuario?.public_repos}</p>
+           
     </div>
   );
 }
